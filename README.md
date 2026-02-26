@@ -212,7 +212,7 @@ The sender does not receive its own message.
 
 ---
 
-# 🚀 Roadmap (Next Iterations)
+# 🚀 Possible Roadmap (Next Iterations)
 
 * [ ] Nickname handshake system
 * [ ] Command parsing (`/quit`, `/list`, `/pm`)
