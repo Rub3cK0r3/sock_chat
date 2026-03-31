@@ -1,6 +1,5 @@
 import asyncio
 
-# Conjunto de clientes conectados
 clients = set()
 
 async def handle_client(reader, writer):
@@ -10,26 +9,23 @@ async def handle_client(reader, writer):
 
     try:
         while True:
-            data = await reader.readline()  # Leer hasta \n
+            data = await reader.readline()
             if not data:
-                # Cliente se desconectó
                 break
 
             message = data.decode().strip()
             print(f"{addr} dice: {message}")
 
-            # Broadcast a todos los demás clientes
             for w in clients:
                 if w != writer:
                     try:
                         w.write(f"{addr} dice: {message}\n".encode())
-                        await w.drain()  # Esperar que se envíe
+                        await w.drain()
                     except ConnectionResetError:
-                        # Cliente cerrado inesperadamente
                         clients.remove(w)
 
     except ConnectionResetError:
-        pass  # Cliente se desconectó abruptamente
+        pass 
     finally:
         print(f"Cliente desconectado: {addr}")
         clients.remove(writer)
@@ -44,6 +40,4 @@ async def main():
     async with server:
         await server.serve_forever()
 
-# Ejecutar event loop
 asyncio.run(main())
-
